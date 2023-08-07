@@ -1,0 +1,71 @@
+Q1- 
+
+output: 
+
+hey from message1
+
+	reason: one method preceded by @Bean annotation.
+
+
+
+
+Q2-
+
+ output: 
+
+hey from message1
+hey from message2
+
+
+	reason: the first method will print output first, then after that the second method,, the @Qualifier annotation used to determine the order of work of spring context, and it force the getMessage2 called after getMessage1 finish.
+
+
+
+
+
+
+Q3-
+
+hey from message1
+hey from message3
+hey from message2
+
+
+	reason: the getMessage2 has a parameter need to assigned to value between two strings in the spring container,, @Qualifier annotation used to take the value from the container and place the order of spring context,, so the second method (getMessage2)  called after the third one (getMessage3).. about the first and third methods, its order in calling depend on spring context, we cannot predicate it but often will start with the first one. , @Qualifier(“1”) and @Qualifier(“2”) annotations did not make a difference because they do not related to any parameter
+
+
+
+
+
+
+Q4- 
+
+
+hey from message1
+hey from Main controller
+hey from message3
+hey from message2 
+
+
+	reason: if spring context starts with the first method (getMessage1) , then the constructor of main controller class will come next because the qualifier annotation force spring context to call it after getMessage1 finish
+ 
+then go to the third method (getMessage3) and print it then the second method because it has a qualifier annotation tell spring that method getMessage2 will be called after getMessage3.
+	
+maybe spring starts with getMessage3 we cannot predicate that.. method1 and method2 did not constraint with qualifier annotation..  
+
+@Qualifier(“2”) annotation doesn’t related to any parameters.
+
+
+
+
+
+
+Q5- 
+
+hey from message3
+hey from message2
+hey from Mian controller
+hey from message1
+
+
+	reason: getMessage1 will go to Main Controller constructor that has a qualifier annotation force it to work after method getMessage2, then go to getMessage2 it also has a qualifier annotation to call it after getMessage3.. at the last when go to getMessage3 , it doesn’t constraint with any qualifier, it will print then call back Qualifier(“3”) = getMessage2, then back to Qualifier(“2”) = MainController constructor, then back to getMessage1. It is like a chain.
